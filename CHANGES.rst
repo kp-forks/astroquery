@@ -15,10 +15,17 @@ alma
 
 - Added support for frequency_resolution in KHz [#3035]
 
+gama
+^^^^
+
+- Change URL to https and thus making the module functional again. [#3056]
+
 mpc
 ^^^
 
 - Parse star catalog information when querying observations database [#2957]
+- Parse ephemeris with sky motion with three digit precision [#3026]
+- Raise EmptyResponseError when empty ephemeris reponse is returned [#3026]
 
 linelists.cdms
 ^^^^^^^^^^^^^^
@@ -42,6 +49,56 @@ vizier
 - Change the type of raised error when the catalog is not found in ``Vizier.get_catalog_metadata``
   from ``IndexError`` to ``EmptyResponseError`` [#2980]
 
+sdss
+^^^^
+
+- Support new SDSS-V DR18 access URLs. [#3017]
+
+simbad
+^^^^^^
+
+- The ``ROW_LIMIT`` value to have the maximum number of rows is now -1.
+  Use ``ROW_LIMIT = 0`` to retrieve the output's meta-data. [#2954]
+
+- ``ROW_LIMIT`` can now be set at instantiation
+  (e.g.: ``simbad = Simbad(ROW_LIMIT=10))``). [#2954]
+
+- ``list_votable_fields`` now return an astropy Table with added fields
+  information instead of a list of strings. [#2954]
+
+- ``list_votable_fields`` is now queried directly from SIMBAD instead of reading
+  a file in astroquery. This prevents it from being outdated. [#2954]
+
+- ``get_votable_fields`` now prints the table name and column name instead of
+  just the column name. [#2954]
+
+- The ``verbose`` and ``cache`` kwargs have been deprecated from all methods
+  as they have no effect with with the new query interface. [#2954]
+
+- ``get_adql`` is deprecated and replaced by ``get_query_payload`` in
+  ``list_columns`` and ``list_table``.
+  The payload output contains the ADQL under the ``QUERY`` key. [#2954]
+
+- all query methods except ``query_tap`` and ``query_criteria`` now accept a
+  ``criteria`` argument to restrict the results with custom criteria. [#2954]
+
+- ``query_objects`` outputs now have an additional column ``user_specified_id``
+  containing the objects' name as specified by the user.
+  The ``votable_field`` option ``typed_id`` is removed. [#2954]
+
+- The ``equinox`` and ``epoch`` kwargs are deprecated in ``query_region``,
+  use astropy.coordinates.SkyCoord directly instead. [#2954]
+
+- ``query_bibcode`` has a new option ``abstract`` that allows to also
+  retrieve the article's abstract. [#2954]
+
+- ``query_bibcode`` output is now in an astropy Table with distinct columns
+  instead of a single one in which all the information was a string. [#2954]
+
+- ``query_criteria`` is now deprecated and should be replaced by either custom
+  TAP queries or by the ``criteria`` argument added in the other query methods.
+  A helper method was added ``astroquery.simbad.utils.CriteriaTranslator`` to
+  translate between the sim-script syntax and the TAP/ADQL syntax. [#2954]
 
 skyview
 ^^^^^^^
